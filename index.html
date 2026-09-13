@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07131d">
+<meta name="description" content="Agencia de IA EEGG — Diagnóstico, pilotos, medición y automatización de procesos empresariales con IA. Camagüey, Cuba.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1d29'/%3E%3Ctext x='32' y='44' font-family='Arial' font-size='28' font-weight='900' fill='%232dd4a7' text-anchor='middle'%3EEG%3C/text%3E%3C/svg%3E">
+<title>Agencia de IA EEGG | IA aplicada a empresas cubanas</title>
+<style>
+:root{
+  --bg0:#050d14; --bg1:#0a1622; --panel:rgba(13,29,41,.88);
+  --glass:rgba(13,29,41,.6); --line:#1c3446; --line-light:#263f52;
+  --text:#eaf4f8; --muted:#8fa8b5; --muted-dim:#5f7a88;
+  --brand:#2dd4a7; --brand-hover:#43e8bd; --brand-glow:rgba(45,212,167,.25);
+  --sky:#4cc2ff; --sky-glow:rgba(76,194,255,.2);
+  --amber:#fbbf24; --amber-glow:rgba(251,191,36,.2);
+  --danger:#ff7a90; --success:#34d399;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --shadow:0 2px 12px rgba(0,0,0,.35);
+  --font:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+  --mono:'Cascadia Code','Fira Code',Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg0);color:var(--text);font-family:var(--font);line-height:1.6;min-height:100dvh;
+  background-image:radial-gradient(ellipse 900px 500px at 75% 0%,rgba(76,194,255,.06),transparent),radial-gradient(ellipse 700px 400px at 20% 100%,rgba(45,212,167,.05),transparent)}
+::selection{background:var(--brand);color:var(--bg0)}
+a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+
+.wrap{width:min(1140px,92%);margin:0 auto}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ── NAV ── */
+header{position:sticky;top:0;z-index:80;background:rgba(5,13,20,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:1.05rem;letter-spacing:.04em;white-space:nowrap}
+.logo .ic{width:30px;height:30px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--brand),var(--sky));display:grid;place-items:center;color:var(--bg0);font-weight:900;font-size:.8rem}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{padding:6px 12px;border-radius:var(--r-sm);color:var(--muted);font-size:.88rem;font-weight:600;transition:background .15s}
+.nav-links a:hover{background:rgba(45,212,167,.08);color:var(--text);text-decoration:none}
+.nav-status{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);margin-left:12px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--danger)}
+.dot.on{background:var(--brand);box-shadow:0 0 6px var(--brand-glow)}
+.burger{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;padding:4px 8px}
+@media(max-width:780px){
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:rgba(5,13,20,.96);border-bottom:1px solid var(--line);padding:8px 0}
+  .nav-links.open{display:flex}
+  .nav-status{margin-left:0}
+  .burger{display:block}
+}
+
+/* ── HERO ── */
+.hero{padding:72px 0 56px}
+.eyebrow{color:var(--sky);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:.75rem}
+.hero h1{font-size:clamp(2.2rem,5.5vw,4.6rem);line-height:1;margin:14px 0 16px;font-weight:900;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--brand),var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero>p{max-width:720px;color:var(--muted);font-size:1.08rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--r-md);font-weight:700;font-size:.92rem;cursor:pointer;border:1px solid transparent;transition:all .18s;text-decoration:none;font-family:var(--font)}
+.btn:active{transform:scale(.97)}
+.b-primary{background:linear-gradient(135deg,var(--brand),var(--sky));color:var(--bg0);border-color:var(--brand);font-weight:800}
+.b-primary:hover{filter:brightness(1.12);text-decoration:none;color:var(--bg0);box-shadow:0 4px 20px var(--brand-glow)}
+.b-ghost{background:var(--glass);border-color:var(--line);color:var(--text)}
+.b-ghost:hover{border-color:var(--brand);background:rgba(45,212,167,.06);text-decoration:none;color:var(--text)}
+.b-sm{padding:7px 14px;font-size:.84rem;border-radius:var(--r-sm)}
+.b-amber{background:var(--amber);color:#2d1d00;border-color:var(--amber)}
+.b-amber:hover{filter:brightness(1.1)}
+
+/* ── SECTIONS ── */
+section{padding:60px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+h2{font-size:1.8rem;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin-bottom:26px;max-width:680px;font-size:.97rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px;box-shadow:var(--shadow)}
+.label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:10px}
+.label-green{background:rgba(45,212,167,.12);color:var(--brand)}
+.label-blue{background:var(--sky-glow);color:var(--sky)}
+.label-amber{background:var(--amber-glow);color:var(--amber)}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:28px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;text-align:center}
+.kpi .n{font-size:1.6rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums}
+.kpi .l{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+
+/* ── MÉTODO FLOW ── */
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.step{padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font-size:.9rem;transition:border-color .15s}
+.step:hover{border-color:var(--brand)}
+.step b{color:var(--brand);margin-right:4px}
+
+/* ── GRID / CARDS ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;transition:all .18s}
+.card:hover{border-color:var(--brand);transform:translateY(-2px)}
+.card h3{margin:8px 0 6px;font-size:1.05rem}
+.card p{color:var(--muted);font-size:.92rem}
+.card .num{font-size:1.8rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums}
+
+/* ── FORM ── */
+label.f{display:block;margin-bottom:2px;font-weight:700;font-size:.88rem}
+input,textarea,select{width:100%;background:var(--bg0);color:var(--text);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font:inherit;font-size:.95rem;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand)}
+textarea{resize:vertical;min-height:90px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.form-full{grid-column:1/-1}
+.output{margin-top:16px;padding:14px;border-radius:var(--r-md);background:var(--bg0);border:1px solid var(--line);font-family:var(--mono);font-size:.85rem;color:var(--muted);white-space:pre-wrap;max-height:280px;overflow:auto;display:none}
+.output.show{display:block}
+
+/* ── CANVAS CHART ── */
+canvas{width:100%;height:300px;background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-md)}
+.legend{display:flex;gap:16px;margin-top:10px;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+.sw{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+
+/* ── DIVISAS ── */
+.divisas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.div-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;text-align:center}
+.div-card .cur{font-size:.8rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.08em}
+.div-card .val{font-size:1.7rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.div-card .upd{font-size:.72rem;color:var(--muted-dim)}
+.div-note{font-size:.82rem;color:var(--muted-dim);margin-top:12px;font-style:italic}
+
+/* ── CONSOLE ── */
+#consolePanel{background:var(--bg0);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;font-family:var(--mono);font-size:.82rem;max-height:220px;overflow:auto;color:var(--muted)}
+.cl{border-bottom:1px solid rgba(28,52,70,.4);padding:3px 0}
+.cl .ts{color:var(--muted-dim);margin-right:6px}
+.cl.ok{color:var(--brand)}
+.cl.warn{color:var(--amber)}
+.cl.err{color:var(--danger)}
+.cl.info{color:var(--sky)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.85rem;text-align:center}
+footer b{color:var(--text)}
+
+/* ── FAB HELP ── */
+.fab{position:fixed;right:20px;bottom:20px;z-index:90;width:48px;height:48px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--amber),#f59e0b);color:#2d1d00;font-size:1.3rem;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4);transition:transform .15s}
+.fab:hover{transform:scale(1.08)}
+.fab:focus-visible{box-shadow:0 0 0 3px var(--amber-glow)}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;z-index:200;background:rgba(3,7,12,.72);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
+.modal-bg.open{display:grid}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);max-width:620px;width:100%;max-height:80vh;overflow:auto;padding:28px;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.modal h2{margin-bottom:12px}
+.modal h3{color:var(--brand);margin:16px 0 6px;font-size:.95rem}
+.modal p,.modal li{color:var(--muted);font-size:.9rem}
+.modal ul,.modal ol{padding-left:20px}
+.modal .cx{float:right;background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1}
+.modal .cx:hover{color:var(--danger)}
+kbd{background:var(--bg0);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.83em;font-family:var(--mono)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .45s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.lock{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 800px 500px at 70% 20%,rgba(76,194,255,.08),transparent 60%),var(--bg0);padding:20px}
+.lock-card{width:min(400px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);padding:32px 28px;text-align:center;box-shadow:var(--shadow)}
+.lock-ico{font-size:2.4rem;line-height:1}
+.lock-card h1{font-size:1.25rem;margin:12px 0 4px;color:var(--text)}
+.lock-card p{color:var(--muted);font-size:.84rem;margin:0 0 18px}
+.lock-in{width:100%;background:var(--bg1);border:1px solid var(--line-light);color:var(--text);font:600 1rem var(--mono);letter-spacing:.4em;text-align:center;padding:12px;border-radius:var(--r-md);margin-bottom:12px}
+.lock-in:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+.lock-btn{width:100%;background:var(--brand);color:var(--bg0);border:none;font-weight:800;font-size:1rem;padding:12px;border-radius:var(--r-md);cursor:pointer;transition:.2s}
+.lock-btn:hover{background:var(--brand-hover)}
+.lock-msg{min-height:20px;font-size:.8rem;margin-top:10px}
+.lock-msg.err{color:var(--danger)}
+.lock-msg.ok{color:var(--success)}
+.lock-note{font-size:.72rem;color:var(--muted-dim);margin-top:14px}
+.lock-shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+body.locked{overflow:hidden}
+.lkbtn{display:inline-flex;gap:6px;align-items:center;background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:.78rem;padding:6px 12px;border-radius:999px;cursor:pointer;margin-top:8px}
+.lkbtn:hover{color:var(--danger);border-color:var(--danger)}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:10px;padding:0}
+.footer-links a{color:var(--muted);font-size:.8rem}
+.footer-links a:hover{color:var(--brand);text-decoration:none}
+.metodo-flow{display:flex;flex-direction:column;gap:0;margin:14px 0 6px}
+.mf-node{background:var(--bg1);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--r-md);padding:12px 14px}
+.mf-node.hl{border-left-color:var(--amber)}
+.mf-tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--sky)}
+.mf-name{font-weight:800;color:var(--text);margin:2px 0 4px}
+.mf-cmp{font-size:.82rem;color:var(--muted);line-height:1.5}
+.mf-cmp b{color:var(--sky);font-weight:700}
+.mf-arrow{text-align:center;color:var(--muted-dim);font-size:1rem;line-height:1;padding:6px 0}
+.mf-diam{margin:10px auto;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--bg1);border:1.5px solid var(--amber);color:var(--amber);font-weight:800;font-size:.82rem;border-radius:14px;padding:10px 16px;max-width:430px}
+.mf-branch{font-size:.78rem;color:var(--muted);text-align:center;margin:2px 0 6px}
+.mf-branch b.si{color:var(--success)}
+.mf-branch b.no{color:var(--danger)}
+.mf-loop{font-size:.78rem;color:var(--muted-dim);text-align:center;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="lock" id="lockScreen" role="dialog" aria-modal="true" aria-label="Acceso restringido">
+  <div class="lock-card" id="lockCard">
+    <div class="lock-ico">🔒</div>
+    <h1>Acceso restringido</h1>
+    <p>Solo el autor (Lic. Edelce Gómez Gómez) puede abrir esta aplicación.</p>
+    <input class="lock-in" id="lockPin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN · ID 181826" maxlength="16" aria-label="PIN de acceso">
+    <button class="lock-btn" id="lockBtn" type="button">Desbloquear</button>
+    <div class="lock-msg" id="lockMsg"></div>
+    <div class="lock-note">5 fallos = 5 minutos de espera</div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><span class="ic">EE</span>Agencia de IA EEGG</div>
+    <button class="burger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#pronostico">Pronóstico</a></li>
+      <li><a href="#divisas">Divisas</a></li>
+      <li><a href="#diagnostico">Diagnóstico</a></li>
+      <li><a href="#evidencia">Evidencia</a></li>
+      <li class="nav-status"><span class="dot" id="connDot"></span><span id="connLabel">offline</span></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Camagüey · Cuba · Arquitectura offline-first</span>
+    <h1>IA que se <em>aplica</em>.<br>IA que se <em>mide</em>.</h1>
+    <p>EEGG diagnostica procesos empresariales, aplica inteligencia artificial de forma verificable, mide resultados y decide qué merece ser automatizado o escalado. Todo con arquitectura offline-first: funciona sin Internet y sincroniza cuando la conectividad lo permite.</p>
+    <div class="btns">
+      <button class="btn b-primary" onclick="runEJEC()">▶ RUN</button>
+      <button class="btn b-ghost" onclick="descargarTodo()">⇩ Descargar datos</button>
+      <button class="btn b-ghost" onclick="document.getElementById('diagnostico').scrollIntoView({behavior:'smooth'})">Solicitar diagnóstico</button>
+    </div>
+    <div class="kpi-strip">
+      <div class="kpi"><span class="n" id="kDiag">0</span><span class="l">Diagnósticos</span></div>
+      <div class="kpi"><span class="n" id="kEvid">0</span><span class="l">Evidencias</span></div>
+      <div class="kpi"><span class="n" id="kAhorro">—</span><span class="l">Ahorro promedio</span></div>
+      <div class="kpi"><span class="n" id="kMotor">—</span><span class="l">Motor pronóstico</span></div>
+      <div class="kpi"><span class="n" id="kCUP">—</span><span class="l">USD → CUP</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="wrap">
+    <span class="label label-blue">Ciclo operativo</span>
+    <h2>Método EEGG</h2>
+    <p class="sub">Un ciclo para convertir IA en mejora empresarial verificable. Cada paso genera evidencia antes de pasar al siguiente.</p>
+    <div class="flow">
+      <div class="step"><b>01</b> Diagnosticar</div>
+      <div class="step"><b>02</b> Priorizar</div>
+      <div class="step"><b>03</b> Aplicar</div>
+      <div class="step"><b>04</b> Medir</div>
+      <div class="step"><b>05</b> Optimizar</div>
+      <div class="step"><b>06</b> Automatizar</div>
+      <div class="step"><b>07</b> Escalar</div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <span class="label label-green">Servicios</span>
+    <h2>Servicios iniciales</h2>
+    <p class="sub">Diseñados para empezar con recursos limitados. La complejidad crece solo cuando exista evidencia.</p>
+    <div class="grid">
+      <div class="card reveal"><div class="num">01</div><h3>Diagnóstico IA</h3><p>Mapa de procesos, tareas repetitivas, documentos, tiempos y oportunidades de IA.</p></div>
+      <div class="card reveal"><div class="num">02</div><h3>Alfabetización empresarial</h3><p>Capacitación práctica para que los trabajadores utilicen IA con criterio y verificación.</p></div>
+      <div class="card reveal"><div class="num">03</div><h3>Pilotos</h3><p>Soluciones mínimas sobre un proceso real. Se compara el antes y el después.</p></div>
+      <div class="card reveal"><div class="num">04</div><h3>Automatización y agentes</h3><p>Solo después de demostrar que el proceso y la solución tienen valor medible.</p></div>
+      <div class="card reveal"><div class="num">05</div><h3>Predicción de demanda</h3><p>Modelo Prophet (tendencia + estacionalidad) para optimizar inventario e insumos.</p></div>
+      <div class="card reveal"><div class="num">06</div><h3>Análisis de datos</h3><p>Paneles de ventas, clientes y gastos en CUP. Decisiones basadas en evidencia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="piloto">
+  <div class="wrap">
+    <span class="label label-amber">Piloto</span>
+    <h2>Primer piloto EEGG</h2>
+    <p class="sub">Hipótesis de trabajo — debe verificarse con datos reales en la empresa piloto.</p>
+    <div class="grid">
+      <div class="card reveal"><span class="label label-amber">PROBLEMA</span><h3>Informes repetitivos</h3><p>Hipótesis: parte del tiempo dedicado a recopilar, estructurar y redactar puede reducirse con IA.</p></div>
+      <div class="card reveal"><span class="label label-blue">MEDICIÓN</span><h3>Antes / después</h3><p>Registrar horas, documentos, errores y retrabajo antes de la intervención y repetir después.</p></div>
+      <div class="card reveal"><span class="label label-green">DECISIÓN</span><h3>Continuar / modificar / abandonar</h3><p>La decisión dependerá de evidencia, no de entusiasmo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pronostico">
+  <div class="wrap">
+    <span class="label label-green">Pronóstico</span>
+    <h2>Predicción de demanda</h2>
+    <p class="sub">Modelo tipo Prophet (tendencia + estacionalidad semanal). Funciona 100% offline en tu navegador. Con el servidor activo, delega al modelo real de Prophet en Python.</p>
+    <div class="panel">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:16px">
+        <div style="flex:1;min-width:180px"><label class="f">Negocio</label><select id="fcNeg"><option>Paladar (restaurante)</option><option>Tienda de ropa</option><option>Cafetería</option><option>Barbería / Salón</option><option>Mercado agropecuario</option></select></div>
+        <div style="min-width:100px"><label class="f">Días</label><input type="number" id="fcDias" value="14" min="7" max="60"></div>
+        <button class="btn b-primary b-sm" onclick="runForecast()">▶ Run</button>
+        <button class="btn b-ghost b-sm" onclick="descargarPronostico()">⇩ Descargar</button>
+      </div>
+      <canvas id="chart"></canvas>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--muted)"></i>Histórico</span>
+        <span><i class="sw" style="background:var(--brand)"></i>Pronóstico</span>
+        <span><i class="sw" style="background:rgba(76,194,255,.3)"></i>Confianza 80%</span>
+      </div>
+      <div id="fcStatus" style="margin-top:10px;font-size:.88rem;color:var(--muted)">Pulsa ▶ Run para generar el pronóstico.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:14px" id="fcMetrics" hidden>
+        <div class="kpi"><span class="n" id="fmTotal">—</span><span class="l">Ventas 7d (CUP)</span></div>
+        <div class="kpi"><span class="n" id="fmCrec">—</span><span class="l">Crecimiento</span></div>
+        <div class="kpi"><span class="n" id="fmPico">—</span><span class="l">Día pico</span></div>
+        <div class="kpi"><span class="n" id="fmStock">—</span><span class="l">Stock sugerido</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="divisas">
+  <div class="wrap">
+    <span class="label label-blue">API en vivo</span>
+    <h2>Tasas de cambio</h2>
+    <p class="sub">Consulta en tiempo real. Solo se activa con conectividad (arquitectura offline-first). Sin clave de API: usa open.er-api.com.</p>
+    <div class="panel">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <button class="btn b-ghost b-sm" onclick="cargarDivisas()">↻ Actualizar</button>
+        <span id="divStatus" style="font-size:.82rem;color:var(--muted)"></span>
+      </div>
+      <div class="divisas-grid" id="divisasGrid">
+        <div class="div-card"><div class="cur">USD → CUP</div><div class="val" id="dUSD">—</div><div class="upd" id="dUSDu"></div></div>
+        <div class="div-card"><div class="cur">EUR → CUP</div><div class="val" id="dEUR">—</div><div class="upd" id="dEURu"></div></div>
+        <div class="div-card"><div class="cur">CAD → CUP</div><div class="val" id="dCAD">—</div><div class="upd" id="dCADu"></div></div>
+        <div class="div-card"><div class="cur">MLC (ref)</div><div class="val" id="dMLC">—</div><div class="upd" id="dMLCu"></div></div>
+      </div>
+      <p class="div-note">Tasas oficiales vía open.er-api.com. La tasa MLC de referencia es 1:1 con USD. La tasa informal puede diferir significativamente.</p>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <span class="label label-amber">Diagnóstico</span>
+    <h2>Diagnóstico empresarial EEGG</h2>
+    <p class="sub">Genera una ficha local (offline) para iniciar la evaluación. Los datos se guardan en IndexedDB.</p>
+    <div class="panel">
+      <form id="diagForm" onsubmit="return guardarDiag(event)">
+        <div class="form-grid">
+          <div><label class="f">Empresa *</label><input required name="empresa" placeholder="Nombre de la empresa"></div>
+          <div><label class="f">Sector *</label><input required name="sector" placeholder="Alimentos, comercio, servicios..."></div>
+          <div class="form-full"><label class="f">Proceso problemático *</label><input required name="proceso" placeholder="Ej.: elaboración de informes"></div>
+          <div><label class="f">¿Cuántas veces ocurre? *</label><input required name="frecuencia" placeholder="Ej.: 20 veces/mes"></div>
+          <div><label class="f">Tiempo aproximado por caso *</label><input required name="tiempo" placeholder="Ej.: 3 horas"></div>
+          <div class="form-full"><label class="f">¿Qué problema produce? *</label><textarea required name="problema" placeholder="Errores, retrasos, retrabajo, costes..."></textarea></div>
+          <div class="form-full"><label class="f">Resultado que se desea mejorar *</label><input required name="resultado" placeholder="Ej.: reducir tiempo de elaboración"></div>
+          <div class="form-full"><button class="btn b-primary" type="submit">Generar ficha de diagnóstico</button></div>
+        </div>
+      </form>
+      <pre class="output" id="diagOutput"></pre>
+    </div>
+  </div>
+</section>
+
+<section id="evidencia">
+  <div class="wrap">
+    <span class="label label-green">Evidencia</span>
+    <h2>Registrar evidencia</h2>
+    <p class="sub">Compara el tiempo antes y después de la intervención IA. El porcentaje de ahorro se calcula automáticamente.</p>
+    <div class="panel">
+      <form id="evidForm" onsubmit="return guardarEvid(event)">
+        <div class="form-grid">
+          <div><label class="f">Empresa *</label><input required name="empresa" placeholder="Empresa"></div>
+          <div><label class="f">Proceso *</label><input required name="proceso" placeholder="Proceso evaluado"></div>
+          <div><label class="f">Tiempo antes (horas) *</label><input required name="antes" type="number" step="0.01" min="0" placeholder="3.5"></div>
+          <div><label class="f">Tiempo después (horas) *</label><input required name="despues" type="number" step="0.01" min="0" placeholder="1.2"></div>
+          <div class="form-full"><label class="f">Observaciones</label><textarea name="obs" placeholder="Notas adicionales..."></textarea></div>
+          <div class="form-full"><button class="btn b-primary" type="submit">Guardar evidencia local</button></div>
+        </div>
+      </form>
+      <div id="evidResult" style="display:none;margin-top:14px"></div>
+      <pre class="output" id="evidOutput"></pre>
+    </div>
+  </div>
+</section>
+
+<section id="consola">
+  <div class="wrap">
+    <h2>Consola</h2>
+    <p class="sub">Registro de eventos locales del sistema.</p>
+    <div id="consolePanel"></div>
+  </div>
+</section>
+
+<section id="canales">
+  <div class="wrap">
+    <h2>Canales</h2>
+    <div class="grid">
+      <div class="card reveal"><h3>🌐 Web</h3><p>Centro de servicios, casos, recursos y diagnóstico.</p></div>
+      <div class="card reveal"><h3>📸 Instagram</h3><p>Demostraciones: problema → IA → resultado → aprendizaje.</p></div>
+<div class="card reveal"><h3>📣 Marketing</h3><p>El contenido conduce a una acción: diagnóstico, piloto o capacitación.</p></div>
+      <div class="card reveal"><h3>💬 WhatsApp</h3><p>Responde en minutos: diagnóstico gratis o tu proceso a mejorar.</p><a style="color:var(--sky);font-weight:600" href="https://wa.me/5353009714" target="_blank" rel="noopener">+53 53009714 →</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Agencia de IA EEGG</b> — Creada por el <b>Lic. Edelce Gómez Gómez</b><br>
+    Camagüey, Cuba · Arquitectura offline-first · © 2026<br>
+    WhatsApp: <a style="color:var(--sky);font-weight:600" href="https://wa.me/5353009714" target="_blank" rel="noopener">+53 53009714 →</a>
+    <div class="footer-links">
+      <a href="landing.html">🌐 Landing</a>
+      <a href="carrusel_pixel.html">🎠 Carrusel</a>
+      <a href="marketing/plantilla_correo_eegg.html">✉️ Correo</a>
+      <a href="marketing/guion_whatsapp.txt">💬 Guion WhatsApp</a>
+      <a href="marketing/guion_instagram.txt">📸 Guion Instagram</a>
+    </div>
+    <button class="lkbtn" id="lockBtnFoot" type="button" onclick="bloquear()" hidden>🔒 Bloquear acceso</button>
+  </div>
+</footer>
+
+<button class="fab" onclick="toggleAyuda()" title="Ayuda" aria-label="Ayuda">?</button>
+
+<div class="modal-bg" id="ayudaBg" onclick="if(event.target===this)cerrarAyuda()">
+  <div class="modal">
+    <button class="cx" onclick="cerrarAyuda()" aria-label="Cerrar">✕</button>
+    <h2>❓ Ayuda — Agencia de IA EEGG</h2>
+    <h3>Arquitectura</h3>
+    <p>Offline-first: el núcleo (diagnóstico, evidencia, pronóstico) funciona sin Internet usando IndexedDB. Las funciones remotas (API de divisas) se activan solo con conectividad. Los datos nunca salen del dispositivo sin autorización explícita.</p>
+    <h3>Botones principales</h3>
+    <ul>
+      <li><kbd>▶ RUN</kbd> — Ejecuta una auto-verificación (IndexedDB, canvas, modelo) y genera el último pronóstico.</li>
+      <li><kbd>⇩ Descargar datos</kbd> — Exporta todos los diagnósticos y evidencias guardados como JSON.</li>
+      <li><kbd>?</kbd> — Abre y cierra esta ayuda (también se cierra con <kbd>Esc</kbd>).</li>
+    </ul>
+    <h3>Secciones</h3>
+    <ul>
+      <li><b>Método:</b> el ciclo EEGG de 7 pasos para aplicar IA mediblemente.</li>
+      <li><b>Servicios:</b> diagnóstico, capacitación, pilotos, automatización, pronóstico, análisis.</li>
+      <li><b>Pronóstico:</b> modelo tipo Prophet (JS local o Python con el servidor activo).</li>
+      <li><b>Divisas:</b> tasas USD/EUR/CUP en tiempo real (open.er-api.com, sin clave API).</li>
+      <li><b>Diagnóstico:</b> formulario → ficha descargable + guardado local en IndexedDB.</li>
+<li><b>Evidencia:</b> registro antes/después con cálculo automático de ahorro %.</li>
+    </ul>
+    <h3>Ciclo EEGG — paso a paso</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:4px">Cada paso compara su <b>entrada</b>, la <b>acción</b> que ejecutas y la <b>evidencia</b> que produce. Solo se escala lo que se mide.</p>
+    <div class="metodo-flow">
+      <div class="mf-node"><small class="mf-tag">1 · Diagnosticar</small><div class="mf-name">Mapear el proceso problemático</div><div class="mf-cmp"><b>Entrada:</b> proceso real · <b>Acción:</b> ficha EEGG · <b>Evidencia:</b> tareas repetitivas, tiempos y cuellos de botella</div></div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node"><small class="mf-tag">2 · Priorizar</small><div class="mf-name">Elegir UN proceso medible</div><div class="mf-cmp"><b>Entrada:</b> varias oportunidades del paso 1 · <b>Acción:</b> priorizar por frecuencia × tiempo × dolor · <b>Evidencia:</b> objetivo definido y forma de medir acordada</div></div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node"><small class="mf-tag">3 · Aplicar</small><div class="mf-name">IA mínima en piloto</div><div class="mf-cmp"><b>Entrada:</b> proceso priorizado · <b>Acción:</b> IA mínima con revisión humana · <b>Evidencia:</b> indicadores antes/después preparados</div></div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node hl"><small class="mf-tag">4 · Medir</small><div class="mf-name">Antes vs después</div><div class="mf-cmp"><b>Entrada:</b> datos del piloto · <b>Acción:</b> registrar evidencia en la app · <b>Evidencia:</b> % real de ahorro medido</div></div>
+      <div class="mf-diam">¿LA EVIDENCIA CUMPLE EL OBJETIVO?</div>
+      <div class="mf-branch"><b class="si">SÍ ↓</b> continúa con Optimizar &nbsp;·&nbsp; <b class="no">NO ⟵</b> vuelve a 🔁 Aplicar, ajusta y vuelve a medir</div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node"><small class="mf-tag">5 · Optimizar</small><div class="mf-name">Ajustar con los datos</div><div class="mf-cmp"><b>Entrada:</b> medición del paso 4 · <b>Acción:</b> corregir el flujo según datos · <b>Evidencia:</b> mejora verificable</div></div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node"><small class="mf-tag">6 · Automatizar</small><div class="mf-name">Flujo estable + revisión</div><div class="mf-cmp"><b>Entrada:</b> proceso optimizado y estable · <b>Acción:</b> automatizar con humano en el bucle · <b>Evidencia:</b> tiempo liberado medido</div></div>
+      <div class="mf-arrow">↓</div>
+      <div class="mf-node"><small class="mf-tag">7 · Escalar</small><div class="mf-name">Repetir en otro proceso</div><div class="mf-cmp"><b>Entrada:</b> proceso probado y medido · <b>Acción:</b> aplicar el mismo método a otro proceso · <b>Evidencia:</b> repetición con control</div></div>
+      <div class="mf-loop">🔁 Fin del ciclo → siguiente proceso (vuelve a 1 · Diagnosticar)</div>
+    </div>
+    <h3>Servidor Node.js (opcional)</h3>
+    <p>Con <kbd>node server.js</kbd> se activa <kbd>localhost:3000</kbd>. El endpoint <kbd>POST /api/forecast</kbd> usa Prophet real si Python está disponible.</p>
+    <h3>Seguridad</h3>
+    <p>No guardamos API keys en el frontend. No introduzcas secretos, credenciales ni datos sensibles sin autorización.</p>
+    <p style="margin-top:14px;color:var(--brand);font-weight:700">Agencia de IA EEGG · Lic. Edelce Gómez Gómez</p>
+  </div>
+</div>
+
+<script>
+/* ==================================================================
+   AGENCIA DE IA EEGG — Lógica principal (offline-first)
+   Lic. Edelce Gómez Gómez · Camagüey, Cuba · 2026
+   ================================================================== */
+
+/* ── UTILIDADES ── */
+const $=s=>document.querySelector(s);
+const ts=()=>new Date().toLocaleTimeString();
+
+function LOG(m,cls){
+  cls=cls||'';
+  const el=$('#consolePanel');
+  el.innerHTML+='<div class="cl '+cls+'"><span class="ts">'+ts()+'</span>'+m+'</div>';
+  el.scrollTop=el.scrollHeight;
+}
+
+/* ── CONEXIÓN ── */
+function actualizarConn(){
+  const on=navigator.onLine;
+  const d=$('#connDot'),l=$('#connLabel');
+  d.className='dot'+(on?' on':'');
+  l.textContent=on?'online':'offline';
+  if(on)LOG('Conectividad restaurada','info'); else LOG('Sin conexión — modo offline activo','warn');
+}
+window.addEventListener('online',actualizarConn);
+window.addEventListener('offline',actualizarConn);
+
+/* ── IndexedDB ── */
+let DB;
+function abrirDB(){
+  return new Promise((res,rej)=>{
+    if(!window.indexedDB){LOG('IndexedDB no disponible','err');return res();}
+    const rq=indexedDB.open('eegg_se',1);
+    rq.onupgradeneeded=e=>{
+      const d=e.target.result;
+      if(!d.objectStoreNames.contains('diagnosticos'))d.createObjectStore('diagnosticos',{keyPath:'id',autoIncrement:true});
+      if(!d.objectStoreNames.contains('evidencias'))d.createObjectStore('evidencias',{keyPath:'id',autoIncrement:true});
+    };
+    rq.onsuccess=e=>{DB=e.target.result;LOG('IndexedDB lista','ok');res();};
+    rq.onerror=()=>{LOG('Error abriendo IndexedDB','err');res();};
+  });
+}
+function idbAdd(tienda,obj){
+  if(!DB)return Promise.resolve();
+  return new Promise((res,rej)=>{
+    const tx=DB.transaction(tienda,'readwrite');
+    tx.objectStore(tienda).add(obj);
+    tx.oncomplete=res;tx.onerror=()=>rej(tx.error);
+  });
+}
+function idbAll(tienda){
+  if(!DB)return Promise.resolve([]);
+  return new Promise((res,rej)=>{
+    const tx=DB.transaction(tienda,'readonly');
+    const rq=tx.objectStore(tienda).getAll();
+    rq.onsuccess=()=>res(rq.result);rq.onerror=()=>rej(rq.error);
+  });
+}
+function idbCount(tienda){
+  if(!DB)return Promise.resolve(0);
+  return new Promise(res=>{
+    const tx=DB.transaction(tienda,'readonly');
+    const rq=tx.objectStore(tienda).count();
+    rq.onsuccess=()=>res(rq.result);rq.onerror=()=>res(0);
+  });
+}
+
+/* ── API DIVISAS (open.er-api.com — sin clave, CORS libre) ── */
+async function cargarDivisas(){
+  const st=$('#divStatus');
+  st.textContent='Consultando…';
+  const cacheKey='eegg_divisas';
+  try{
+    const ctrl=new AbortController();
+    const tid=setTimeout(()=>ctrl.abort(),10000);
+    const r=await fetch('https://open.er-api.com/v6/latest/USD',{signal:ctrl.signal});
+    clearTimeout(tid);
+    const j=await r.json();
+    if(j&&j.rates){
+      const cup=j.rates.CUP||0;
+      const eur=j.rates.EUR||0;
+      const cad=j.rates.CAD||0;
+      $('#dUSD').textContent=cup?cup.toFixed(2):'—';
+      $('#dEUR').textContent=(cup/eur).toFixed(2);
+      $('#dCAD').textContent=(cup/cad).toFixed(2);
+      $('#dMLC').textContent=cup?cup.toFixed(2):'—';
+      const fecha=j.time_last_update_utc||new Date().toUTCString();
+      [dUSDu,dEURu,dCADu,dMLCu].forEach(el=>el.textContent='Actualizado: '+fecha.slice(0,16));
+      $('#kCUP').textContent=cup?cup.toFixed(1):'—';
+      st.textContent='Conectado — tasas oficiales';
+      st.style.color='var(--brand)';
+      LOG('API divisas cargada (USD/CUP: '+cup.toFixed(1)+')','ok');
+      try{localStorage.setItem(cacheKey,JSON.stringify({cup,eur,cad,fecha:Date.now()}));}catch(e){}
+    }
+  }catch(e){
+    st.textContent='Sin conexión — modo offline';
+    st.style.color='var(--amber)';
+    try{
+      const c=JSON.parse(localStorage.getItem(cacheKey));
+      if(c&&c.cup){
+        $('#dUSD').textContent=c.cup.toFixed(2);
+        $('#dEUR').textContent=(c.cup/c.eur).toFixed(2);
+        $('#dCAD').textContent=(c.cup/c.cad).toFixed(2);
+        $('#dMLC').textContent=c.cup.toFixed(2);
+        $('#kCUP').textContent=c.cup.toFixed(1);
+        st.textContent='Cache local — '+new Date(c.fecha).toLocaleDateString();
+        LOG('Divisas desde cache localStorage','warn');
+      }
+    }catch(x){}
+  }
+}
+
+/* ── DATOS DE NEGOCIOS (JSON) ── */
+const NEGOCIOS=[
+  {nombre:'Paladar (restaurante)',base:38000,tend:0.0018,ruido:0.06},
+  {nombre:'Tienda de ropa',base:52000,tend:0.0022,ruido:0.08},
+  {nombre:'Cafetería',base:21000,tend:0.0012,ruido:0.07},
+  {nombre:'Barbería / Salón',base:15000,tend:0.0009,ruido:0.05},
+  {nombre:'Mercado agropecuario',base:44000,tend:0.0015,ruido:0.10}
+];
+const ESTAC=[0.82,0.86,0.90,0.95,1.05,1.25,1.17];
+const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+function genHistorial(idx,dias){
+  dias=dias||120;
+  const cfg=NEGOCIOS[idx],datos=[];
+  const hoy=new Date();hoy.setHours(0,0,0,0);
+  for(let i=dias-1;i>=0;i--){
+    const f=new Date(hoy);f.setDate(f.getDate()-i);
+    const t=dias-1-i,dow=(f.getDay()+6)%7;
+    let y=cfg.base*(1+cfg.tend*t)*ESTAC[dow];
+    y*=1+(Math.sin(t*3.1)*cfg.ruido*.5)+(Math.random()*2-1)*cfg.ruido*.5;
+    datos.push({ds:f.toISOString().slice(0,10),y:Math.max(500,Math.round(y))});
+  }
+  return datos;
+}
+
+/* ── MODELO TIPO PROPHET (JS) ── */
+function pronosticoJS(hist,per){
+  const n=hist.length,ys=hist.map(d=>d.y),mx=(n-1)/2,my=ys.reduce((a,b)=>a+b,0)/n;
+  let num=0,den=0;
+  for(let i=0;i<n;i++){num+=(i-mx)*(ys[i]-my);den+=(i-mx)**2;}
+  const pend=den?num/den:0,inter=my-pend*mx;
+  const suma=new Array(7).fill(0),cnt=new Array(7).fill(0);
+  hist.forEach((d,i)=>{
+    const dow=(new Date(d.ds+'T00:00:00').getDay()+6)%7;
+    const base=inter+pend*i;
+    if(base>0){suma[dow]+=ys[i]/base;cnt[dow]++;}
+  });
+  const factor=suma.map((s,i)=>cnt[i]?s/cnt[i]:1);
+  const out=[];const ul=new Date(hist[n-1].ds+'T00:00:00');
+  for(let k=1;k<=per;k++){
+    const f=new Date(ul);f.setDate(f.getDate()+k);
+    const dow=(f.getDay()+6)%7,idx2=n-1+k;
+    const yhat=Math.max(500,Math.round((inter+pend*idx2)*factor[dow]));
+    out.push({ds:f.toISOString().slice(0,10),yhat,yhat_lower:Math.round(yhat*.88),yhat_upper:Math.round(yhat*1.12)});
+  }
+  return out;
+}
+
+/* ── GRÁFICO CANVAS ── */
+let ultFC=null,ultGraf=null;
+function dibujarGrafico(hist,fc){
+  ultGraf={hist,fc};
+  const c=$('#chart'),dpr=window.devicePixelRatio||1;
+  const W=c.clientWidth||700,H=c.clientHeight||300;
+  c.width=W*dpr;c.height=H*dpr;
+  const g=c.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,W,H);
+  const pad={l:52,r:12,t:14,b:30};
+  const all=[].concat(hist.map(d=>d.y),fc.map(d=>d.yhat_upper));
+  const mn=Math.min.apply(null,all)*.9,mx=Math.max.apply(null,all)*1.05;
+  const tot=hist.length+fc.length;
+  const X=i=>pad.l+(W-pad.l-pad.r)*i/(tot-1);
+  const Y=v=>H-pad.b-(H-pad.t-pad.b)*(v-mn)/(mx-mn);
+  g.strokeStyle='#1c3446';g.fillStyle='#5f7a88';g.font='11px Segoe UI';g.lineWidth=1;
+  for(let k=0;k<=4;k++){
+    const v=mn+(mx-mn)*k/4,yy=Y(v);
+    g.beginPath();g.moveTo(pad.l,yy);g.lineTo(W-pad.r,yy);g.stroke();
+    g.fillText(Math.round(v/1000)+'k',6,yy+4);
+  }
+  g.beginPath();
+  fc.forEach((d,i)=>{const x=X(hist.length+i),y=Y(d.yhat_lower);i?g.lineTo(x,y):g.moveTo(x,y);});
+  for(let i=fc.length-1;i>=0;i--)g.lineTo(X(hist.length+i),Y(fc[i].yhat_upper));
+  g.closePath();g.fillStyle='rgba(76,194,255,.14)';g.fill();
+  g.beginPath();g.strokeStyle='#8fa8b5';g.lineWidth=1.8;
+  hist.forEach((d,i)=>{const x=X(i),y=Y(d.y);i?g.lineTo(x,y):g.moveTo(x,y);});
+  g.stroke();
+  g.beginPath();g.strokeStyle='#2dd4a7';g.lineWidth=2.2;
+  g.moveTo(X(hist.length-1),Y(hist[hist.length-1].y));
+  fc.forEach((d,i)=>g.lineTo(X(hist.length+i),Y(d.yhat)));g.stroke();
+  g.fillStyle='#5f7a88';
+  g.fillText(hist[0].ds,pad.l,H-8);
+  const uf=fc[fc.length-1].ds;
+  g.fillText(uf,W-pad.r-g.measureText(uf).width,H-8);
+}
+
+
+/* ── EJECUTAR RUN ── */
+async function runEJEC(){
+  LOG('═══ RUN EEGG-SE ═══','info');
+  /* auto-verificación */
+  LOG('Verificando IndexedDB…'+(DB?'OK':'No disponible'),'warn');
+  LOG('Verificando canvas…'+($('#chart').getContext?'OK':'No soportado'),'warn');
+  const con=navigator.onLine;
+  LOG('Estado de conexión: '+(con?'online':'offline'),con?'ok':'warn');
+  /* kpis locales */
+  const nd=await idbCount('diagnosticos'),ne=await idbCount('evidencias');
+  const evs=await idbAll('evidencias');
+  let ahorro='—';
+  if(evs.length){
+    const total=evs.reduce((s,e)=>s+(parseFloat(e.antes)||0),0);
+    const des=evs.reduce((s,e)=>s+(parseFloat(e.despues)||0),0);
+    if(total>0)ahorro=((total-des)/total*100).toFixed(1)+'%';
+  }
+  $('#kDiag').textContent=nd;
+  $('#kEvid').textContent=ne;
+  $('#kAhorro').textContent=ahorro;
+  LOG('Diagnósticos: '+nd+' | Evidencias: '+ne+' | Ahorro promedio: '+ahorro,'ok');
+  /* pronóstico rápido */
+  await runForecast();
+  if(con)cargarDivisas();
+  LOG('═══ RUN completado ═══','ok');
+}
+
+/* ── PRONÓSTICO ── */
+async function runForecast(){
+  const negSel=$('#fcNeg').selectedIndex;
+  const dias=Math.min(60,Math.max(7,+$('#fcDias').value||14));
+  const st=$('#fcStatus');
+  st.textContent='Calculando…';
+  LOG('Pronóstico → '+NEGOCIOS[negSel].nombre+' · '+dias+' días','info');
+  const hist=genHistorial(negSel);
+  let fc=null,motor='JavaScript (tipo Prophet)';
+  try{
+    const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch('/api/forecast',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({historial:hist,periodos:dias}),signal:ctrl.signal});
+    if(r.ok){const j=await r.json();if(j.pronostico&&j.pronostico.length){fc=j.pronostico;motor=j.motor||motor;}}
+  }catch(e){}
+  if(!fc){await new Promise(r=>setTimeout(r,300));fc=pronosticoJS(hist,dias);}
+  ultFC={hist,fc,motor,dias,negIdx:negSel};
+  dibujarGrafico(hist,fc);
+
+  const sem=fc.slice(0,7).reduce((a,d)=>a+d.yhat,0);
+  const u7=hist.slice(-7).reduce((a,d)=>a+d.y,0);
+  const p7=hist.slice(-14,-7).reduce((a,d)=>a+d.y,0);
+  const crec=p7?(u7-p7)/p7*100:0;
+  let pi=0;fc.forEach((d,i)=>{if(d.yhat>fc[pi].yhat)pi=i;});
+  const pico=DIAS[(new Date(fc[pi].ds+'T00:00:00').getDay()+6)%7];
+
+  $('#fcMetrics').hidden=false;
+  $('#fmTotal').textContent=(sem/1000).toFixed(1)+'k';
+  const mc=$('#fmCrec');mc.textContent=(crec>=0?'▲ ':'▼ ')+crec.toFixed(1)+'%';
+  mc.style.color=crec>=0?'var(--success)':'var(--danger)';
+  $('#fmPico').textContent=pico;
+  $('#fmStock').textContent=(sem*.65/1000).toFixed(1)+'k';
+  st.innerHTML='✅ Motor: <b>'+motor+'</b> · '+NEGOCIOS[negSel].nombre+' · '+hist.length+'→'+dias+' días';
+  $('#kMotor').textContent=motor.includes('Prophet')?'Prophet':'JS';
+  LOG('Pronóstico OK — '+motor+' — pico: '+pico,'ok');
+}
+
+/* ── DESCARGAR PRONÓSTICO ── */
+function descargarPronostico(){
+  if(!ultFC){LOG('Ejecuta el pronóstico primero','warn');return;}
+  const data={app:'Agencia de IA EEGG',autor:'Lic. Edelce Gómez Gómez',fecha:new Date().toISOString(),
+    negocio:NEGOCIOS[ultFC.negIdx].nombre,dias:ultFC.dias,motor:ultFC.motor,historial:ultFC.hist,pronostico:ultFC.fc};
+  descarga('eegg_pronostico_'+NEGOCIOS[ultFC.negIdx].nombre.replace(/\W+/g,'_').toLowerCase()+'.json',
+    JSON.stringify(data,null,2),'application/json');
+  LOG('Pronóstico descargado','ok');
+}
+
+/* ── DIAGNÓSTICO FORM ── */
+async function guardarDiag(e){
+  e.preventDefault();
+  const d=Object.fromEntries(new FormData(e.target).entries());
+  d.fecha=new Date().toISOString();
+  await idbAdd('diagnosticos',d);
+  const ficha='FICHA EEGG — DIAGNÓSTICO EMPRESARIAL\n'+
+    'Empresa: '+d.empresa+'\nSector: '+d.sector+'\nProceso: '+d.proceso+
+    '\nFrecuencia: '+d.frecuencia+'\nTiempo/caso: '+d.tiempo+
+    '\nProblema: '+d.problema+'\nResultado deseado: '+d.resultado+'\nFecha: '+d.fecha;
+  descarga('EEGG_diagnostico_'+d.empresa.replace(/\W+/g,'_')+'.txt',ficha,'text/plain');
+  descarga('EEGG_diagnostico_'+d.empresa.replace(/\W+/g,'_')+'.json',JSON.stringify(d,null,2),'application/json');
+  const o=$('#diagOutput');o.classList.add('show');o.textContent=ficha;
+  $('#kDiag').textContent=await idbCount('diagnosticos');
+  LOG('Diagnóstico guardado: '+d.empresa,'ok');
+  e.target.reset();return false;
+}
+
+/* ── EVIDENCIA FORM ── */
+async function guardarEvid(e){
+  e.preventDefault();
+  const d=Object.fromEntries(new FormData(e.target).entries());
+  const ant=parseFloat(d.antes)||0,des=parseFloat(d.despues)||0;
+  const ahorro=ant>0?((ant-des)/ant*100).toFixed(1):0;
+  d.ahorro_pct=ahorro;d.fecha=new Date().toISOString();
+  await idbAdd('evidencias',d);
+  const box=$('#evidResult');box.style.display='block';
+  box.innerHTML='<div class="kpi-strip" style="margin:0"><div class="kpi"><span class="n" style="color:'+
+    (ahorro>=0?'var(--success)':'var(--danger)')+'">'+ahorro+'%</span><span class="l">Ahorro calculado</span></div>'+
+    '<div class="kpi"><span class="n">'+ant+'h</span><span class="l">Antes</span></div>'+
+    '<div class="kpi"><span class="n">'+des+'h</span><span class="l">Después</span></div></div>';
+  const o=$('#evidOutput');o.classList.add('show');
+  o.textContent='Evidencia guardada — '+d.empresa+' · '+d.proceso+'\nAntes: '+ant+'h → Después: '+des+'h\nAhorro: '+ahorro+'%';
+  $('#kEvid').textContent=await idbCount('evidencias');
+  const evs=await idbAll('evidencias');
+  if(evs.length){
+    const tot=evs.reduce((s,x)=>s+(parseFloat(x.antes)||0),0);
+    const de=evs.reduce((s,x)=>s+(parseFloat(x.despues)||0),0);
+    $('#kAhorro').textContent=tot>0?((tot-de)/tot*100).toFixed(1)+'%':'—';
+  }
+  LOG('Evidencia guardada — '+d.empresa+' — ahorro: '+ahorro+'%','ok');
+  e.target.reset();return false;
+}
+
+/* ── DESCARGAR TODO ── */
+async function descargarTodo(){
+  const diags=await idbAll('diagnosticos');
+  const evids=await idbAll('evidencias');
+  const data={app:'Agencia de IA EEGG',autor:'Lic. Edelce Gómez Gómez',
+    arquitectura:'offline-first (HTML5+CSS+JS+IndexedDB)',
+    exportado:new Date().toISOString(),
+    diagnosticos:diags,evidencias:evids,ultimoPronostico:ultFC||null};
+  descarga('eegg_datos_completos.json',JSON.stringify(data,null,2),'application/json');
+  LOG('Todos los datos exportados ('+diags.length+' diagnósticos, '+evids.length+' evidencias)','ok');
+}
+
+/* ── UTILIDADES ── */
+function descarga(nombre,contenido,tipo){
+  const b=new Blob([contenido],{type:tipo+';charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+function toggleAyuda(){const el=$('#ayudaBg');el.classList.toggle('open');}
+function cerrarAyuda(){$('#ayudaBg').classList.remove('open');}
+
+/* ── REVEAL ANIMATION ── */
+function initReveal(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('vis'));return;
+  }
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+/* ── INIT ── */
+async function init(){
+  await abrirDB();
+  actualizarConn();
+  await cargarDivisas();
+  const nd=await idbCount('diagnosticos'),ne=await idbCount('evidencias');
+  $('#kDiag').textContent=nd;
+  $('#kEvid').textContent=ne;
+  LOG('Agencia de IA EEGG — Lic. Edelce Gómez Gómez','info');
+  LOG('Arquitectura offline-first: IndexedDB'+(DB?' lista':' (no disponible)'),'info');
+  initReveal();
+}
+/* ── SEGURIDAD: PIN DE ACCESO (solo el autor Lic. Edelce Gómez Gómez) ── */
+function sha256Hex(str){
+  const k=[
+  0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const bytes=unescape(encodeURIComponent(str));
+  const bitLen=bytes.length*8;
+  const padded=Array.from(bytes,function(c){return c.charCodeAt(0);});padded.push(0x80);
+  while((padded.length%64)!==56)padded.push(0);
+  const view=new DataView(new ArrayBuffer(padded.length+8));
+  for(let i=0;i<padded.length;i++)view.setUint8(i,padded[i]);
+  view.setUint32(padded.length,Math.floor(bitLen/0x100000000));
+  view.setUint32(padded.length+4,bitLen>>>0);
+  const m=new Array(64);
+  for(let off=0;off<view.byteLength;off+=64){
+    for(let i=0;i<16;i++)m[i]=view.getUint32(off+i*4);
+    for(let i=16;i<64;i++){
+      const s0=(((m[i-15]>>>7)|(m[i-15]<<25))^((m[i-15]>>>18)|(m[i-15]<<14))^(m[i-15]>>>3));
+      const s1=(((m[i-2]>>>17)|(m[i-2]<<15))^((m[i-2]>>>19)|(m[i-2]<<13))^(m[i-2]>>>10));
+      m[i]=(m[i-16]+s0+m[i-7]+s1)>>>0;
+    }
+    let a=h[0],b=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+    for(let i=0;i<64;i++){
+      const S1=((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7));
+      const ch=(e&f)^(~e&g);
+      const t1=(hh+S1+ch+k[i]+m[i])>>>0;
+      const S0=((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10));
+      const maj=(a&b)^(a&c)^(b&c);
+      const t2=(S0+maj)>>>0;
+      hh=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;
+    }
+    h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b)>>>0;h[2]=(h[2]+c)>>>0;h[3]=(h[3]+d)>>>0;
+    h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+hh)>>>0;
+  }
+  return h.map(x=>('00000000'+(x>>>0).toString(16)).slice(-8)).join('');
+}
+
+/* ── SEGURIDAD: PIN DE ACCESO (solo el autor) ── */
+const LOCK_HASH='daa6f841a7f85ace1776e3ab99e6644bee33e08b34ca2357941834502f9a006c';
+const K_UNLOCK='eegg_unlock_v1',K_FAILS='eegg_lockfails';
+let lockFails=0;
+
+function aplicarLock(){
+  document.body.classList.add('locked');
+  $('#lockScreen').style.display='flex';
+  const fp=$('#lockBtnFoot');if(fp)fp.hidden=true;
+  setTimeout(()=>{$('#lockPin').focus();},80);
+}
+function desbloquearApp(){
+  try{localStorage.setItem(K_UNLOCK,'1');}catch(e){}
+  lockFails=0;try{localStorage.removeItem(K_FAILS);}catch(e){}
+  document.body.classList.remove('locked');
+  $('#lockScreen').style.display='none';
+  $('#lockPin').value='';$('#lockMsg').textContent='';
+  const fp=$('#lockBtnFoot');if(fp)fp.hidden=false;
+}
+function bloquear(){
+  try{localStorage.removeItem(K_UNLOCK);}catch(e){}
+  aplicarLock();
+  LOG('Acceso bloqueado manualmente','info');
+}
+function eventoPin(){
+  const pin=$('#lockPin').value.trim();
+  const msg=$('#lockMsg'),card=$('#lockCard');
+  if(sha256Hex(pin)===LOCK_HASH){
+    msg.textContent='Acceso autorizado. Bienvenido.';
+    msg.className='lock-msg ok';
+    setTimeout(desbloquearApp,250);
+    LOG('Acceso autorizado (PIN correcto)','ok');
+  }else{
+    lockFails++;
+    try{localStorage.setItem(K_FAILS,String(lockFails));}catch(e){}
+    msg.textContent='PIN incorrecto ('+(5-lockFails)+' intentos restantes).';
+    msg.className='lock-msg err';
+    card.classList.remove('lock-shake');void card.offsetWidth;card.classList.add('lock-shake');
+    $('#lockPin').value='';$('#lockPin').focus();
+    if(lockFails>=5){
+      msg.textContent='Demasiados intentos. Espera 5 minutos.';
+      $('#lockPin').disabled=true;$('#lockBtn').disabled=true;
+      setTimeout(()=>{$('#lockPin').disabled=false;$('#lockBtn').disabled=false;lockFails=0;try{localStorage.removeItem(K_FAILS);}catch(e){};msg.textContent='';},5*60*1000);
+    }
+  }
+}
+function initLock(){
+  try{lockFails=parseInt(localStorage.getItem(K_FAILS)||'0',10)||0;}catch(e){lockFails=0;}
+  let ok=false;
+  try{ok=localStorage.getItem(K_UNLOCK)==='1';}catch(e){}
+  if(ok){
+    document.body.classList.remove('locked');
+    $('#lockScreen').style.display='none';
+    const fp=$('#lockBtnFoot');if(fp)fp.hidden=false;
+    return;
+  }
+  aplicarLock();
+  $('#lockPin').addEventListener('keydown',e=>{if(e.key==='Enter')eventoPin();});
+  $('#lockBtn').addEventListener('click',eventoPin);
+}
+initLock();
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarAyuda();});
+window.addEventListener('resize',()=>{if(ultGraf)dibujarGrafico(ultGraf.hist,ultGraf.fc);});
+init();
+</script>
+</body>
+</html>
