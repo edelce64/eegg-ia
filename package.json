@@ -1,0 +1,13 @@
+{
+  "name": "eegg-agencia-ia",
+  "version": "1.0.0",
+  "description": "EEGG — Agencia de IA para empresas cubanas. HTML autocontenido + servidor Node.js + Prophet (Python).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "MIT"
+}
