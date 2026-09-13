@@ -1,0 +1,3 @@
+# EEGG — Bibliotecas de Python para el motor de pronóstico
+pandas>=2.0
+prophet>=1.1
