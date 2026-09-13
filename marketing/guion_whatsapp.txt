@@ -1,0 +1,87 @@
+==========================================================
+GUION WHATSAPP — AGENCIA DE IA EEGG
+Creada por: Lic. Edelce Gómez Gómez  |  Camagüey, Cuba
+==========================================================
+
+【1】MENSAJE DE PRESENTACIÓN (cliente nuevo / frío)
+------------------------------------------
+Hola [Nombre], buenos días 👋
+
+Soy Edelce, de la Agencia de IA EEGG (Camagüey).
+Ayudamos a negocios como el tuyo a quitarles horas de
+trabajo repetitivo: informes, mensajes, facturas y
+documentos que se hacen a mano.
+
+Ahora mismo estamos con una oferta de lanzamiento:
+el primer diagnóstico empresarial es GRATIS. Consiste en
+una ficha rápida de tus procesos y una estimación de cuánto
+podrías ahorrar con IA.
+
+¿Te interesa que te mencione cuáles son los 3 procesos que
+más se automatizan en tu tipo de negocio?
+------------------------------------------
+
+【2】SEGUIMIENTO (día 3 si no respondió)
+------------------------------------------
+Hola [Nombre], te escribo nuevamente porque la oferta de
+este mes es limitada: quedan 3 diagnósticos gratuitos.
+
+En 5 minutos se llena la ficha y te devuelves con una
+estimación de ahorro. Si ahora no es buen momento, te
+escribo el próximo mes 👍
+------------------------------------------
+
+【3】OFERTA DE LANZAMIENTO (para fanpage/grupos)
+------------------------------------------
+🎉 Lanzamiento EEGG — IA aplicada a empresas cubanas 🇨🇺
+
+🔍 1er diagnóstico empresarial: GRATIS
+🤖 Simplicidad: empezamos con UN proceso
+📊 Medimos antes y después. No prometemos nada sin medir.
+⚙️ Solo automatizamos lo que demuestra valor.
+
+Escríbeme «QUIERO IA» y te mando la ficha de diagnóstico.
+WhatsApp: +53 53009714  |  Camagüey, Cuba
+------------------------------------------
+
+【4】CIERRE / RECORDATORIO
+------------------------------------------
+Hola [Nombre] ⌛ Te reservé tu cupo hasta el viernes.
+El diagnóstico gratuito incluye:
+· Ficha de tu proceso problemático
+· Estimación de ahorro potencial
+· Propuesta de primer piloto, sin compromiso
+
+¿Te lo preparo hoy o prefieres la próxima semana?
+------------------------------------------
+
+【5】RESPUESTAS RÁPIDAS (WhatsApp Business → Botones)
+------------------------------------------
+→ "PRECIOS": "Trabajamos por etapas: Diagnóstico (gratis en
+  lanzamiento), Piloto desde 30 000 CUP aprox. y Membresía
+  mensual (precios a convenir según proceso)."
+→ "HORARIO": "Atendemos de lunes a sábado, 9:00 am – 6:00 pm.
+  Fuera de ese horario te respondemos al siguiente día."
+→ "BASE": "Sí, nuestro sistema es offline-first: funciona sin
+  Internet. Solo usamos conexión cuando hay que sincronizar
+  o consultar tasas en vivo."
+→ "DATOS": "No pedimos datos sensibles. Todo queda en tu
+  dispositivo y nunca se comparte sin autorización."
+
+【6】CONFIGURACIÓN RECOMENDADA DE WHATSAPP BUSINESS
+------------------------------------------
+• Nombre de empresa: Agencia de IA EEGG
+• Descripción: IA que se aplica y se mide. Diagnóstico gratuito.
+• Botón "Más información" → tu landing/publicación.
+• Mensaje de bienvenida automático:
+  "Hola 👋, soy Edelce de la Agencia de IA EEGG 🇨🇺
+   Para ayudarte rápido, escribe la palabra:
+   IA → para el diagnóstico gratuito".
+
+【7】BUENAS PRÁCTICAS
+------------------------------------------
+• Horarios de envío: 9-12 y 15-18 horas (evita contactar de madrugada).
+• Primera nota de voz: 30s máximo, con energía y 1 solo mensaje.
+• Textos cortos: párrafos de 2-3 líneas, un solo CTA por mensaje.
+• A los contactos que consigan listas: personaliza SIEMPRE nombre+marketing.
+• En Cuba el canal #1 es WhatsApp; Instagram sirve para confianza.
