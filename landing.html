@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1622">
+<meta name="description" content="Agencia de IA EEGG — IA aplicada a empresas cubanas. Diagnóstico, pilotos, medición y automatización verificables. Camagüey, Cuba. Arquitectura offline-first.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1d29'/%3E%3Ctext x='32' y='44' font-family='Segoe UI,Arial' font-size='26' font-weight='900' fill='%232dd4a7' text-anchor='middle'%3EEE%3C/text%3E%3C/svg%3E">
+<title>Agencia de IA EEGG | IA que se aplica. IA que se mide.</title>
+<style>
+:root{
+  --bg0:#0a1622; --bg1:#0d1d29; --panel:rgba(13,29,41,.88); --glass:rgba(13,29,41,.6);
+  --line:#1c3446; --line-light:#263f52;
+  --text:#eaf4f8; --muted:#8fa8b5; --muted-dim:#5f7a88;
+  --brand:#2dd4a7; --brand-hover:#43e8bd; --brand-glow:rgba(45,212,167,.25);
+  --sky:#4cc2ff; --sky-glow:rgba(76,194,255,.2);
+  --amber:#fbbf24; --amber-glow:rgba(251,191,36,.2);
+  --danger:#ff7a90; --success:#34d399;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --shadow:0 2px 12px rgba(0,0,0,.35);
+  --font:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+  --mono:'Cascadia Code','Fira Code',Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:linear-gradient(180deg,var(--bg0),var(--bg1));color:var(--text);font-family:var(--font);line-height:1.6;min-height:100dvh;
+  background-image:radial-gradient(ellipse 900px 500px at 78% -5%,rgba(76,194,255,.07),transparent),radial-gradient(ellipse 700px 420px at 12% 108%,rgba(45,212,167,.06),transparent)}
+::selection{background:var(--brand);color:var(--bg0)}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto;transform:none!important;opacity:1!important}}
+.wrap{width:min(1140px,92%);margin:0 auto}
+
+header{position:sticky;top:0;z-index:80;background:rgba(10,22,34,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:1.02rem;letter-spacing:.03em;white-space:nowrap}
+.logo .ic{width:30px;height:30px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--brand),var(--sky));display:grid;place-items:center;color:var(--bg0);font-weight:900;font-size:.78rem}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{padding:6px 11px;border-radius:var(--r-sm);color:var(--muted);font-size:.87rem;font-weight:600;transition:background .15s,color .15s}
+.nav-links a:hover{background:rgba(45,212,167,.08);color:var(--text);text-decoration:none}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--text);font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:var(--r-sm);line-height:1;font-family:var(--font)}
+@media(max-width:820px){
+  .nav-links{display:none;position:absolute;top:62px;left:0;right:0;flex-direction:column;background:rgba(10,22,34,.97);border-bottom:1px solid var(--line);padding:10px 0;gap:2px}
+  .nav-links.open{display:flex}
+  .burger{display:block}
+}
+
+.hero{padding:84px 0 60px}
+.eyebrow{color:var(--sky);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:.75rem}
+.hero h1{font-size:clamp(2.3rem,5.6vw,4.7rem);line-height:1.02;margin:16px 0 18px;font-weight:900;letter-spacing:-.025em}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--brand),var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:760px;color:var(--muted);font-size:1.08rem}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:var(--r-md);font-weight:700;font-size:.92rem;cursor:pointer;border:1px solid transparent;transition:transform .18s,box-shadow .18s,filter .18s;text-decoration:none;font-family:var(--font)}
+.btn:active{transform:scale(.97)}
+.b-primary{background:linear-gradient(135deg,var(--brand),var(--sky));color:var(--bg0);border-color:var(--brand);font-weight:800}
+.b-primary:hover{filter:brightness(1.12);text-decoration:none;color:var(--bg0);box-shadow:0 4px 22px var(--brand-glow)}
+.b-ghost{background:var(--glass);border-color:var(--line);color:var(--text)}
+.b-ghost:hover{border-color:var(--brand);background:rgba(45,212,167,.06);text-decoration:none;color:var(--text)}
+.b-help{width:44px;height:44px;padding:0;border-radius:50%;justify-content:center;background:var(--amber);color:#2d1d00;font-weight:900;font-size:1.1rem;border-color:var(--amber)}
+.b-help:hover{filter:brightness(1.1);box-shadow:0 4px 18px var(--amber-glow);text-decoration:none}
+.b-sm{padding:7px 14px;font-size:.84rem;border-radius:var(--r-sm)}
+
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:38px;max-width:860px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 14px;text-align:center}
+.kpi .n{display:block;font-size:1.7rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi .l{display:block;color:var(--muted);font-size:.8rem;margin-top:3px}
+@media(max-width:640px){.kpi-strip{grid-template-columns:repeat(2,1fr);margin-top:28px}}
+
+section{padding:58px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+h2{font-size:clamp(1.6rem,3.2vw,2rem);font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:26px;max-width:700px;font-size:.97rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px;box-shadow:var(--shadow)}
+.label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:10px}
+.glabel{background:rgba(45,212,167,.12);color:var(--brand)}
+.blabel{background:rgba(76,194,255,.12);color:var(--sky)}
+.alabel{background:rgba(251,191,36,.12);color:var(--amber)}
+
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.step{padding:11px 17px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font-size:.9rem;transition:border-color .15s,transform .15s}
+.step:hover{border-color:var(--brand);transform:translateY(-1px)}
+.step b{color:var(--brand);margin-right:4px;font-variant-numeric:tabular-nums}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;transition:border-color .18s,transform .18s}
+.card:hover{border-color:var(--line-light);transform:translateY(-3px)}
+.card h3{margin:10px 0 6px;font-size:1.04rem}
+.card p{color:var(--muted);font-size:.92rem}
+.card .num{font-size:1.7rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums}
+
+.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:22px;align-items:stretch}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;display:flex;flex-direction:column;gap:10px;transition:border-color .18s,transform .18s}
+.pcard:hover{border-color:var(--brand);transform:translateY(-3px)}
+.pcard.hot{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand),0 8px 28px var(--brand-glow)}
+.pcard h3{font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:0}
+.pcard .price{font-size:1.9rem;font-weight:900;color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.pcard .price small{font-size:.85rem;color:var(--muted);font-weight:600}
+.pcard p{color:var(--muted);font-size:.88rem;flex:1}
+.pnote{color:var(--muted-dim);font-size:.85rem;margin-top:14px;font-style:italic}
+
+label.f{display:block;margin-bottom:2px;font-weight:700;font-size:.88rem}
+input,textarea,select{width:100%;background:var(--bg0);color:var(--text);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font:inherit;font-size:.95rem;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand)}
+textarea{resize:vertical;min-height:90px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.form-full{grid-column:1/-1}
+.success{display:none;margin-top:14px;padding:14px 16px;border-radius:var(--r-md);background:rgba(45,212,167,.08);border:1px solid var(--brand);color:var(--brand);font-size:.9rem}
+.success.show{display:block}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.86rem;text-align:center}
+footer b{color:var(--text)}
+
+.fab{position:fixed;right:20px;bottom:20px;z-index:90;width:50px;height:50px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--amber),#f59e0b);color:#2d1d00;font-size:1.35rem;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4);transition:transform .15s;font-family:var(--font)}
+.fab:hover{transform:scale(1.08)}
+.fab:focus-visible{box-shadow:0 0 0 3px var(--amber-glow)}
+
+.modal-bg{position:fixed;inset:0;z-index:200;background:rgba(3,7,12,.72);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
+.modal-bg.open{display:grid}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);max-width:640px;width:100%;max-height:82vh;overflow:auto;padding:28px;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.modal h2{margin-bottom:10px;font-size:1.4rem}
+.modal h3{color:var(--brand);margin:16px 0 6px;font-size:.95rem}
+.modal p,.modal li{color:var(--muted);font-size:.9rem}
+.modal ul,.modal ol{padding-left:20px;margin:6px 0}
+.modal .cx{float:right;background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1;font-family:var(--font)}
+.modal .cx:hover{color:var(--danger)}
+kbd{background:var(--bg0);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.83em;font-family:var(--mono)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .45s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+</style>
+</head><body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><span class="ic" aria-hidden="true">EE</span>Agencia de IA EEGG</div>
+    <button class="burger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Abrir menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#oferta">Oferta</a></li>
+      <li><a href="#piloto">Piloto</a></li>
+      <li><a href="#diagnostico">Diagnóstico</a></li>
+      <li><a href="#canales">Canales</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Camagüey · Cuba · Arquitectura offline-first</span>
+    <h1>IA que se <em>aplica</em>.<br>IA que se <em>mide</em>.</h1>
+    <p>Diagnosticamos procesos empresariales, aplicamos inteligencia artificial de forma verificable, medimos resultados y decidimos qué merece ser automatizado o escalado. Funciona sin Internet: la evidencia manda, no la promesa.</p>
+    <div class="btns">
+      <a class="btn b-primary" href="#diagnostico">Solicitar diagnóstico</a>
+      <a class="btn b-primary" href="https://wa.me/5353009714" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="btn b-ghost" href="#metodo">▶ Ver método</a>
+      <button class="btn b-help" onclick="toggleAyuda()" aria-label="Ayuda" title="Ayuda">?</button>
+    </div>
+    <div class="kpi-strip">
+      <div class="kpi"><span class="n" id="kDiagL">—</span><span class="l">Diagnósticos</span></div>
+      <div class="kpi"><span class="n" id="kProcL">—</span><span class="l">Procesos analizados</span></div>
+      <div class="kpi"><span class="n" id="kSectL">—</span><span class="l">Sectores</span></div>
+      <div class="kpi"><span class="n">Prophet</span><span class="l">Motor pronóstico</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="wrap">
+    <span class="label blabel">Ciclo operativo · 7 pasos</span>
+    <h2>Método EEGG</h2>
+    <p class="sub">Un ciclo para convertir IA en mejora empresarial verificable: cada paso genera evidencia antes de pasar al siguiente.</p>
+    <div class="flow">
+      <div class="step reveal"><b>01</b> Diagnosticar</div>
+      <div class="step reveal"><b>02</b> Priorizar</div>
+      <div class="step reveal"><b>03</b> Aplicar</div>
+      <div class="step reveal"><b>04</b> Medir</div>
+      <div class="step reveal"><b>05</b> Optimizar</div>
+      <div class="step reveal"><b>06</b> Automatizar</div>
+      <div class="step reveal"><b>07</b> Escalar</div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <span class="label glabel">Servicios iniciales</span>
+    <h2>Servicios</h2>
+    <p class="sub">Diseñados para empezar con recursos limitados y crecer en complejidad solo cuando exista evidencia.</p>
+    <div class="grid">
+      <div class="card reveal"><div class="num">01</div><h3>Diagnóstico IA</h3><p>Mapa de procesos, tareas repetitivas, documentos, tiempos y oportunidades de IA.</p></div>
+      <div class="card reveal"><div class="num">02</div><h3>Alfabetización empresarial</h3><p>Capacitación práctica para que los trabajadores usen IA con criterio, verificación y seguridad.</p></div>
+      <div class="card reveal"><div class="num">03</div><h3>Pilotos</h3><p>Soluciones mínimas sobre un proceso real. Se compara el antes y el después.</p></div>
+      <div class="card reveal"><div class="num">04</div><h3>Automatización y agentes</h3><p>Solo después de demostrar que el proceso y la solución tienen valor medible.</p></div>
+      <div class="card reveal"><div class="num">05</div><h3>Predicción de demanda</h3><p>Modelo tipo Prophet (tendencia + estacionalidad) para optimizar inventario e insumos.</p></div>
+      <div class="card reveal"><div class="num">06</div><h3>Análisis de datos</h3><p>Paneles de ventas, clientes y gastos en CUP. Decisiones basadas en evidencia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="piloto">
+  <div class="wrap">
+    <span class="label alabel">Primer piloto</span>
+    <h2>Primer piloto EEGG</h2>
+    <p class="sub">Hipótesis de trabajo — se verifica con datos reales en la empresa piloto.</p>
+    <div class="grid">
+      <div class="card reveal"><span class="label alabel">PROBLEMA</span><h3>Informes repetitivos</h3><p>Hipótesis: parte del tiempo dedicado a recopilar, estructurar y redactar información puede reducirse con IA.</p></div>
+      <div class="card reveal"><span class="label blabel">MEDICIÓN</span><h3>Antes / después</h3><p>Registrar horas, documentos, errores y retrabajo antes de la intervención y repetir la medición después.</p></div>
+      <div class="card reveal"><span class="label glabel">DECISIÓN</span><h3>Continuar / modificar / abandonar</h3><p>La decisión dependerá de evidencia, no de entusiasmo.</p></div>
+    </div>
+  </div>
+</section><section id="oferta">
+  <div class="wrap">
+    <span class="label glabel">Inversión en CUP</span>
+    <h2>Ofrecemos valor medible</h2>
+    <p class="sub">Precios sugeridos para el mercado cubano. Cada piloto se ajusta al tamaño y prioridad del proceso.</p>
+    <div class="pricing">
+      <div class="pcard reveal">
+        <h3>Primer diagnóstico</h3>
+        <div class="price">0 <small>CUP</small></div>
+        <p>Gratuito. Mapa de procesos, identificación de tareas repetitivas y estimación del impacto potencial.</p>
+        <a class="btn b-ghost b-sm" href="#diagnostico">Solicitar diagnóstico</a>
+      </div>
+      <div class="pcard hot reveal">
+        <h3>Piloto</h3>
+        <div class="price">30 000 <small>CUP desde</small></div>
+        <p>El más solicitado. Solución mínima sobre un proceso real, con medición antes/después y decisión de continuar, modificar o abandonar.</p>
+        <a class="btn b-primary b-sm" href="#diagnostico">Empezar un piloto</a>
+      </div>
+      <div class="pcard reveal">
+        <h3>Membresía mensual</h3>
+        <div class="price">15 000 <small>CUP/mes</small></div>
+        <p>Acompañamiento continuo: seguimiento de indicadores, automatización progresiva, pronósticos y soporte.</p>
+        <a class="btn b-ghost b-sm" href="#diagnostico">Consultar membresía</a>
+      </div>
+    </div>
+    <p class="pnote">Precios a convenir. El presupuesto final depende del alcance, la cantidad de procesos y la infraestructura existente de la empresa.</p>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <span class="label alabel">Ficha local · offline</span>
+    <h2>Diagnóstico empresarial EEGG</h2>
+    <p class="sub">Completa el formulario: se generan dos archivos descargables (ficha .txt y datos .json) y el diagnóstico queda guardado localmente, sin Internet.</p>
+    <div class="panel">
+      <form id="diagForm" novalidate>
+        <div class="form-grid">
+          <div><label class="f">Empresa *</label><input required name="empresa" placeholder="Nombre de la empresa" autocomplete="organization"></div>
+          <div><label class="f">Sector *</label><input required name="sector" placeholder="Alimentos, comercio, servicios..."></div>
+          <div class="form-full"><label class="f">Proceso problemático *</label><input required name="proceso" placeholder="Ej.: elaboración de informes"></div>
+          <div><label class="f">¿Cuántas veces ocurre? *</label><input required name="frecuencia" placeholder="Ej.: 20 veces/mes"></div>
+          <div><label class="f">Tiempo aproximado por caso *</label><input required name="tiempo" placeholder="Ej.: 3 horas"></div>
+          <div class="form-full"><label class="f">¿Qué problema produce? *</label><textarea required name="problema" placeholder="Errores, retrasos, retrabajo, costes..."></textarea></div>
+          <div class="form-full"><label class="f">Resultado que se desea mejorar *</label><input required name="resultado" placeholder="Ej.: reducir tiempo de elaboración"></div>
+          <div class="form-full"><button class="btn b-primary" type="submit">Generar ficha de diagnóstico (.txt + .json)</button></div>
+        </div>
+      </form>
+      <div class="success" id="diagOk" role="status"></div>
+    </div>
+    <p class="pnote">Privacidad: no introduzcas datos personales, secretos comerciales ni información sensible. Todo se procesa y guarda en este dispositivo (offline-first).</p>
+  </div>
+</section>
+
+<section id="canales">
+  <div class="wrap">
+    <span class="label blabel">Canales</span>
+    <h2>Dónde encontrar a EEGG</h2>
+    <p class="sub">Todo contenido conduce a una acción: diagnóstico, piloto o capacitación.</p>
+    <div class="grid">
+      <div class="card reveal"><h3>Web</h3><p>Centro de servicios, casos, recursos y diagnóstico empresarial.</p></div>
+      <div class="card reveal"><h3>Instagram</h3><p>Demostraciones cortas: problema → IA → resultado → aprendizaje.</p></div>
+      <div class="card reveal"><h3>Marketing</h3><p>El contenido debe conducir a una acción: diagnóstico, piloto o capacitación.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Agencia de IA EEGG</b> — Creada por el <b>Lic. Edelce Gómez Gómez</b> · Camagüey, Cuba · © 2026
+  </div>
+</footer>
+
+<button class="fab" onclick="toggleAyuda()" title="Ayuda" aria-label="Ayuda">?</button>
+
+<div class="modal-bg" id="ayudaBg" onclick="if(event.target===this)cerrarAyuda()">
+  <div class="modal">
+    <button class="cx" onclick="cerrarAyuda()" aria-label="Cerrar">✕</button>
+    <h2>Ayuda — Agencia de IA EEGG</h2>
+    <h3>Arquitectura offline-first</h3>
+    <p>El núcleo (presentación, servicios, diagnóstico y guardado) funciona sin Internet: HTML5 + CSS3 + JavaScript + JSON + IndexedDB, todo en un solo archivo. Los datos no salen del dispositivo sin autorización y solo se sincronizan cuando exista un canal seguro.</p>
+    <h3>Botones principales</h3>
+    <ul>
+      <li><kbd>Solicitar diagnóstico</kbd> — abre el formulario que genera tu ficha .txt y .json, y la guarda localmente.</li>
+      <li><kbd>▶ Ver método</kbd> — muestra el ciclo EEGG de 7 pasos.</li>
+      <li><kbd>?</kbd> — abre y cierra esta ayuda (también con <kbd>Esc</kbd> o clic fuera de la ventana).</li>
+    </ul>
+    <h3>El método</h3>
+    <p>Diagnosticar → Priorizar → Aplicar → Medir → Optimizar → Automatizar → Escalar. Ninguna decisión se toma por entusiasmo: se decide con evidencia.</p>
+    <h3>Seguridad</h3>
+    <ul>
+      <li>No almacenamos claves de API ni credenciales en el frontend.</li>
+      <li>El diagnóstico se guarda en <b>IndexedDB</b>, con respaldo en memoria si tu navegador no lo soporta.</li>
+      <li>No introduzcas secretos comerciales ni información sensible.</li>
+    </ul>
+    <p style="margin-top:16px;color:var(--brand);font-weight:700">Agencia de IA EEGG · Lic. Edelce Gómez Gómez · Camagüey, Cuba · © 2026</p>
+  </div>
+</div><script>
+/* Agencia de IA EEGG — landing offline-first
+   Lic. Edelce Gómez Gómez · Camagüey, Cuba · © 2026
+   Un solo archivo: HTML5 + CSS3 + JS + JSON + IndexedDB (fallback en memoria). */
+var DB=null, usingMemory=false, memStore=[];
+
+function openDB(){
+  if(!('indexedDB' in window)){ usingMemory=true; return; }
+  try{
+    var rq=indexedDB.open('eegg_landing',1);
+    rq.onupgradeneeded=function(e){
+      var d=e.target.result;
+      if(!d.objectStoreNames.contains('diagnosticos'))
+        d.createObjectStore('diagnosticos',{keyPath:'id',autoIncrement:true});
+    };
+    rq.onsuccess=function(e){ DB=e.target.result; updateKPIs(); };
+    rq.onerror=function(){ usingMemory=true; };
+  }catch(e){ usingMemory=true; }
+}
+
+function dbAdd(obj){
+  return new Promise(function(res){
+    if(usingMemory||!DB){ memStore.push(obj); res(); return; }
+    try{
+      var tx=DB.transaction('diagnosticos','readwrite');
+      tx.objectStore('diagnosticos').add(obj);
+      tx.oncomplete=function(){ res(); };
+      tx.onerror=function(){ usingMemory=true; memStore.push(obj); res(); };
+    }catch(e){ usingMemory=true; memStore.push(obj); res(); }
+  });
+}
+
+function dbCount(){
+  return new Promise(function(res){
+    if(usingMemory||!DB){ res(memStore.length); return; }
+    try{
+      var tx=DB.transaction('diagnosticos','readonly');
+      var rq=tx.objectStore('diagnosticos').count();
+      rq.onsuccess=function(){ res(rq.result); };
+      rq.onerror=function(){ res(memStore.length); };
+    }catch(e){ res(memStore.length); }
+  });
+}
+
+function dbAll(){
+  return new Promise(function(res){
+    if(usingMemory||!DB){ res(memStore.slice()); return; }
+    try{
+      var tx=DB.transaction('diagnosticos','readonly');
+      var rq=tx.objectStore('diagnosticos').getAll();
+      rq.onsuccess=function(){ res(rq.result||[]); };
+      rq.onerror=function(){ res(memStore.slice()); };
+    }catch(e){ res(memStore.slice()); }
+  });
+}
+function updateKPIs(){
+  dbAll().then(function(rows){
+    var proc={},sect={};
+    for(var i=0;i<rows.length;i++){
+      if(rows[i]&&rows[i].proceso)proc[rows[i].proceso]=1;
+      if(rows[i]&&rows[i].sector)sect[rows[i].sector]=1;
+    }
+    var nObj=function(id,val){ var el=document.getElementById(id); if(el)el.textContent=String(val); };
+    nObj('kDiagL',rows.length);
+    nObj('kProcL',Object.keys(proc).length);
+    nObj('kSectL',Object.keys(sect).length);
+  });
+}
+
+function download(name, content, type){
+  try{
+    var blob=new Blob([content],{type:(type||'text/plain')+';charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1200);
+  }catch(e){}
+}
+
+function safeName(s){ return (s||'empresa').replace(/\W+/g,'_').toLowerCase(); }
+
+function toggleAyuda(){
+  var el=document.getElementById('ayudaBg');
+  if(el)el.classList.toggle('open');
+}
+function cerrarAyuda(){
+  var el=document.getElementById('ayudaBg');
+  if(el)el.classList.remove('open');
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape')cerrarAyuda(); });
+
+var form=document.getElementById('diagForm');
+if(form){
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var d={}, fd=new FormData(form);
+    fd.forEach(function(v,k){ d[k]=(v||'').trim(); });
+    if(!d.empresa||!d.sector||!d.proceso||!d.frecuencia||!d.tiempo||!d.problema||!d.resultado){
+      alert('Completa todos los campos obligatorios.');
+      return;
+    }
+    d.fecha=new Date().toISOString();
+    d.origen='landing';
+    var ficha=
+      'FICHA EEGG — DIAGNÓSTICO EMPRESARIAL\n'+
+      '=====================================\n'+
+      'Empresa: '+d.empresa+'\n'+
+      'Sector: '+d.sector+'\n'+
+      'Proceso problemático: '+d.proceso+'\n'+
+      'Frecuencia: '+d.frecuencia+'\n'+
+      'Tiempo por caso: '+d.tiempo+'\n'+
+      'Problema que produce: '+d.problema+'\n'+
+      'Resultado deseado: '+d.resultado+'\n'+
+      'Fecha: '+d.fecha+'\n'+
+      '=====================================\n'+
+      'Archivo generado localmente — Agencia de IA EEGG (offline-first).\n';
+    var base='EEGG_diagnostico_'+safeName(d.empresa);
+    download(base+'.txt', ficha, 'text/plain');
+    download(base+'.json', JSON.stringify(d,null,2), 'application/json');
+    dbAdd(d).then(updateKPIs).then(function(){
+      var ok=document.getElementById('diagOk');
+      if(ok){
+        ok.classList.add('show');
+        ok.innerHTML='<b>Ficha generada.</b> Se descargaron <b>'+base+'.txt</b> y <b>'+base+'.json</b>.<br>'+
+          'Guardado en: <b>'+(usingMemory?'memoria (IndexedDB no disponible)':'IndexedDB local')+'</b>. '+
+          'El siguiente paso es medir el proceso ANTES de introducir la solución de IA.';
+      }
+      form.reset();
+    });
+  });
+}
+
+function initReveal(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)||
+     window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    for(var i=0;i<els.length;i++)els[i].classList.add('vis');
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('vis'); io.unobserve(en.target); }
+    });
+  },{threshold:0.12});
+  for(var j=0;j<els.length;j++)io.observe(els[j]);
+}
+
+initReveal();
+openDB();
+</script>
+</body>
+</html>
