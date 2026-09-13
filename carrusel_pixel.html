@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Carrusel estilo pixel 8-bit de la Agencia de IA EEGG — anuncio para Facebook e Instagram. PNG 1080x1080.">
+<title>Carrusel Pixel EEGG — Anuncio Facebook/Instagram</title>
+<style>
+:root{
+  --bg:#08101c; --ink:#06101c; --panel:#0d1d29; --line:#1c3446;
+  --txt:#eaf4f8; --muted:#8fa8b5; --em:#2dd4a7; --sky:#4cc2ff;
+  --am:#fbbf24; --mag:#f472b6; --white:#f4fbfe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);min-height:100vh;color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;padding:18px 14px 30px}
+.wrap{width:min(720px,100%)}
+header{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--em),var(--sky));color:var(--ink);font-weight:900;display:grid;place-items:center;font-size:14px;box-shadow:3px 3px 0 rgba(0,0,0,.5)}
+h1{font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.hint{font-size:.72rem;color:var(--muted)}
+.stage{position:relative;background:#000;box-shadow:0 0 0 4px var(--panel),0 0 0 7px var(--em),0 0 0 10px var(--panel),14px 14px 0 rgba(45,212,167,.12);image-rendering:pixelated}
+#cv{display:block;width:100%;height:auto;background:#000}
+.controls{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0 8px}
+.px{background:var(--panel);border:2px solid var(--line);color:var(--txt);font-family:'Courier New',monospace;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;padding:9px 14px;cursor:pointer;box-shadow:3px 3px 0 var(--line);transition:none;user-select:none}
+.px:active{transform:translate(3px,3px);box-shadow:none}
+.px.accent{background:var(--em);color:var(--ink);border-color:var(--em);box-shadow:3px 3px 0 var(--line)}
+.dots{display:flex;gap:7px}
+.dt{width:12px;height:12px;background:var(--line);cursor:pointer;border:none}
+.dt.on{background:var(--em);box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--em)}
+.counter{font-family:'Courier New',monospace;font-size:.8rem;color:var(--muted);min-width:58px;text-align:center}
+.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+.info{width:100%;margin-top:18px;background:var(--panel);border:2px solid var(--line);padding:12px 14px;font-size:.78rem;color:var(--muted);line-height:1.6}
+.info b{color:var(--em)}
+@media(max-width:480px){.actions .px{flex:1 1 45%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">EE</div><h1>Carrusel Pixel · EEGG</h1></div>
+    <span class="hint">6 láminas 1080×1080 · Facebook/IG</span>
+  </header>
+
+  <div class="stage"><canvas id="cv"></canvas></div>
+
+  <div class="controls">
+    <button class="px" onclick="prevSlide()" aria-label="Anterior">◀</button>
+    <div class="dots" id="dots"></div>
+    <button class="px" onclick="nextSlide()" aria-label="Siguiente">▶</button>
+    <span class="counter" id="counter">01 / 06</span>
+  </div>
+
+  <div class="actions">
+    <button class="px accent" onclick="exportOne()">⬇ PNG 1080×1080</button>
+    <button class="px" onclick="exportAll()">⬇ Descargar las 6</button>
+    <button class="px" onclick="printAll()">🖨 Imprimir / Guardar PDF</button>
+  </div>
+
+  <div class="info">
+    <b>CÓMO USARLO:</b> navega con las flechas o los puntos y descarga las láminas en PNG.
+    Súbelas a Facebook como <b>publicación con carrusel</b> (varias imágenes) o a Instagram como carrusel de 6 fotos.
+    Formato cuadrado 1080×1080, óptimo para el feed. &nbsp;·&nbsp;
+    <b>ESTILO:</b> pixel 8-bit retro, paleta EEGG. &nbsp;·&nbsp; AGENCIA DE IA EEGG — Lic. Edelce Gómez Gómez.
+  </div>
+</div>
+
+<script>
+/* ===== AGENCIA DE IA EEGG — Carrusel pixel 8-bit (offline-first) ===== */
+const P={
+  em:'#2dd4a7',sky:'#4cc2ff',am:'#fbbf24',mag:'#f472b6',
+  ink:'#06101c',write:'#f4fbfe',pan:'#0d1d29',line:'#1c3446',muted:'#8fa8b5'
+};
+const ICONS={
+  robot:[
+    ".1111111.","11111111","1.0000.1","1.0000.1","1.0000.1",
+    "11111111","10110011","11111111",".100001.","11111111"],
+  clock:[
+    "..1111..",".111111.","11....11","11001111","11001111",
+    "11....11",".111111.","..1111.."],
+  coin:[
+    ".111111.","11111111","11....11","11111111","11111111",
+    "11....11","11111111",".111111."],
+  heart:[
+    ".11..11.","11111111","11111111","11111111",".111111.",
+    "..1111..","...11...","........"],
+  check:[
+    "........","...11...","..11....","1111111.",".11111..","..111...","...1....","........"]
+};
+let SLIDES=[
+  {bg:'#08101c',ac:P.em,icon:'robot',title:'AGENCIA DE IA',title2:'EEGG',
+   lines:['IA QUE SE APLICA. IA QUE SE MIDE.','CAMAGÜEY · CUBA 🇨🇺','ARQUITECTURA OFFLINE-FIRST','PILOTOS VERIFICABLES'],
+   cta:'▶ CONÓCENOS (DESLIZA →)',num:'01 / 06'},
+  {bg:'#1c1206',ac:P.am,icon:'clock',title:'¿TU NEGOCIO',title2:'PIERDE HORAS?',
+   lines:['INFORMES REPETITIVOS… 3H C/U','MENSAJES Y FACTURAS A MANO','RETRABAJO TODAS LAS SEMANAS','REPETIR LO MISMO CADA DÍA'],
+   cta:'ESTO TIENE ARREGLO 😤',num:'02 / 06'},
+  {bg:'#08101c',ac:P.sky,icon:'robot',title:'LA IA QUITA',title2:'LO REPETITIVO',
+   lines:['DIAGNOSTICAMOS EL PROCESO REAL','APLICAMOS LA IA MÍNIMA NECESARIA','REVISIÓN HUMANA EN TODO MOMENTO','MEDIMOS ANTES Y DESPUÉS'],
+   cta:'EL EQUIPO NO SE REEMPLAZA: SE POTENCIA',num:'03 / 06'},
+  {bg:'#06181c',ac:P.em,icon:'check',title:'EL MÉTODO EEGG',title2:'',
+   lines:['01 DIAGNOSTICAR','02 APLICAR','03 MEDIR','04 AUTOMATIZAR','…Y SOLO ESCALAR LO QUE DEMUESTRA VALOR'],
+   cta:'ORDEN + EVIDENCIA, NO PROMESAS',num:'04 / 06'},
+  {bg:'#1c0a16',ac:P.mag,icon:'coin',title:'OFERTA DE',title2:'LANZAMIENTO',
+   lines:['🔥 1er DIAGNÓSTICO EMPRESARIAL','GRATIS','+ FICHA DE TUS PROCESOS','+ ESTIMACIÓN DE AHORRO','SIN COMPROMISO'],
+   cta:'CUPOS LIMITADOS ESTE MES',num:'05 / 06'},
+  {bg:'#08101c',ac:P.sky,icon:'heart',title:'ESCRÍBENOS',title2:'«QUIERO IA»',
+   lines:['📲 WHATSAPP: +53 53009714','@AGENCIAIA_EEGG · CAMAGÜEY 🇨🇺','LIC. EDELCE GÓMEZ GÓMEZ','RESPONDEMOS < 48H'],
+   cta:'IA QUE SE APLICA. IA QUE SE MIDE.',num:'06 / 06'}
+];
+const SIZE=1080;
+let cur=0,cv,ix;
+
+function iconDraw(g,name,cx,cy,ps){
+  const b=ICONS[name]; if(!b)return;
+  const rows=b.length,cols=Math.max.apply(null,b.map(r=>r.length));
+  g.fillStyle=P.write;
+  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++)
+    if(b[y][x]==='1')g.fillRect(cx+(x-cols/2)*ps,cy+(y-rows/2)*ps,ps,ps);
+}
+function txt(g,s,x,y,map,lw){
+  const m=[...s].map(c=>map[c]!==undefined?map[c]:c).join('');
+  g.font='900 '+lw+"px 'Courier New',monospace";
+  g.textAlign='center';g.textBaseline='middle';
+  g.fillText(m,x,y);
+}
+function lineUp(g,x,y,text,size,color,letter){
+  g.font='900 '+size+"px 'Courier New',monospace";
+  g.textAlign='center';g.textBaseline='middle';
+  let x2=x;
+  for(const ch of text){g.fillStyle=color;g.fillText(ch,x2,y);x2+=g.measureText(ch).width+ (letter||0);}
+}
+function drawSlide(g,i,W,H){
+  const s=W/1080; g.save(); g.scale(s,s); g.imageSmoothingEnabled=false;
+  const d=SLIDES[i];
+  g.fillStyle=d.bg; g.fillRect(0,0,1080,1080);
+  /* píxeles de fondo (checker sutil) */
+  g.globalAlpha=.05; g.fillStyle=P.write;
+  for(let y=0;y<1080;y+=54)for(let x=((y/54)%2)*27;x<1080;x+=54) g.fillRect(x,y,27,27);
+  g.globalAlpha=1;
+  /* marco pixel */
+  g.strokeStyle=d.ac; g.lineWidth=16; g.strokeRect(24,24,1032,1032);
+  g.strokeStyle='rgba(255,255,255,.25)'; g.lineWidth=4; g.strokeRect(40,40,1000,1000);
+  ['32,32','1048,32','32,1048','1048,1048'].forEach(p=>{
+    const[x,y]=p.split(',').map(Number); g.fillStyle=d.ac; g.fillRect(x-18,y-18,36,36);
+  });
+  /* cabecera marca */
+  g.fillStyle=d.ac; g.fillRect(70,60,74,44); g.fillStyle=P.ink; g.font='900 24px "Courier New",monospace'; g.textAlign='center';g.textBaseline='middle'; g.fillText('EE',107,82);
+  lineUp(g,300,82,'AGENCIA DE IA  EEGG',26,P.write,4);
+  lineUp(g,300,126,'· '+d.num+' ·',20,P.muted,3);
+  g.strokeStyle='rgba(255,255,255,.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(70,160); g.lineTo(1010,160); g.stroke();
+  /* icono */
+  if(d.icon) iconDraw(g,d.icon,540,330,9);
+  /* títulos */
+  lineUp(g,540,470,d.title,120,d.ac,6);
+  lineUp(g,540,620,d.title2?d.title2:'·',150,P.write,8);
+  let gap=540, lead=780;
+  if(d.title2){/* lista centrada */}else{}
+  /* líneas tipo bullets */
+  g.strokeStyle='rgba(255,255,255,.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(200,720); g.lineTo(880,720); g.stroke();
+  let yy=lead;
+  const step=d.lines.length>4?50:56;
+  d.lines.forEach((l,idx)=>{
+    if(idx===3&&d.lines.length>4) yy=950;
+    g.fillStyle=P.em; g.fillRect(540-170,yy-(step*0.35),10,10);
+    lineUp(g,540,yy,l,34,l.indexOf('GRATIS')>-1?P.am:P.write,3);
+    yy+=step;
+  });
+  /* CTA pixel footer */
+  const cyTxt=1020;
+  g.fillStyle=d.ac; g.fillRect(130,cyTxt-28,820,56);
+  g.fillStyle=P.ink; g.font='900 26px "Courier New",monospace'; g.textAlign='center';g.textBaseline='middle'; g.fillText(d.cta,540,cyTxt);
+  g.fillStyle=P.muted; g.font='900 18px "Courier New",monospace'; g.fillText('LIC. EDELCE GÓMEZ GÓMEZ · AGENCIA DE IA EEGG',540,968);
+  g.restore();
+}
+function draw(c,idx){ const w=c.width=c.clientWidth||500; c.height=w; const g=c.getContext('2d'); drawSlide(g,idx,w,w); }
+
+function buildDots(){
+  const box=document.getElementById('dots'); box.innerHTML='';
+  SLIDES.forEach((_,i)=>{ const b=document.createElement('button'); b.className='dt'+(i===cur?' on':''); b.setAttribute('aria-label','Lámina '+(i+1)); b.onclick=()=>{cur=i;redraw()}; box.appendChild(b); });
+}
+function redraw(){ cv=document.getElementById('cv'); draw(cv,cur); document.querySelectorAll('.dt').forEach((b,i)=>b.classList.toggle('on',i===cur)); document.getElementById('counter').textContent=SLIDES[cur].num; }
+function nextSlide(){cur=(cur+1)%SLIDES.length;redraw()}
+function prevSlide(){cur=(cur-1+SLIDES.length)%SLIDES.length;redraw()}
+function exportOne(){ const c=document.createElement('canvas');c.width=SIZE;c.height=SIZE; drawSlide(c.getContext('2d'),cur,SIZE,SIZE); save(c.toDataURL('image/png'),'EEGG_carrusel_0'+(cur+1)+'.png'); }
+function exportAll(){ exportOne(); let i=(cur+1)%SLIDES.length; const t=setInterval(()=>{ if(i===cur){clearInterval(t);return;} exportOne(); i=(i+1)%SLIDES.length; },350); }
+function printAll(){ const c=document.createElement('canvas');c.width=SIZE;c.height=SIZE; let i=0; const open=()=>{ const w=window.open('','_blank'); return w; }; const w=open(); const doPrint=()=>{ const g=c.getContext('2d'); drawSlide(g,i,SIZE,SIZE); const data=c.toDataURL('image/png'); if(i<SLIDES.length){ w.document.write('<img src="'+data+'" style="width:38%;border:1px solid #aaa;margin:2px">'); i++; setTimeout(doPrint,120); } else { w.document.close(); setTimeout(()=>w.print(),600); } }; doPrint(); }
+function save(url,n){ const a=document.createElement('a'); a.href=url; a.download=n; document.body.appendChild(a); a.click(); a.remove(); }
+addEventListener('keydown',e=>{ if(e.key==='ArrowRight')nextSlide(); if(e.key==='ArrowLeft')prevSlide(); });
+addEventListener('resize',()=>{cv&&draw(cv,cur)});
+buildDots(); redraw();
+</script>
+</body>
+</html>
